@@ -1,15 +1,27 @@
 package com.bcbsm.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.bcbsm.dto.PersonRequestDTO;
+import com.bcbsm.dto.PersonResponseDTO;
+import com.bcbsm.service.VoterRegistrationService;
+import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class WelcomeController {
 
-    @GetMapping("/welcome")
-    public String welcomeMessage() {
-        return "Good Morning!..";
+    @Autowired
+    private VoterRegistrationService voterRegistrationService;
+
+    @GetMapping("/health-check")
+    public String healthCheck() {
+        return "Service is UP and Running ....!";
+    }
+
+    @PostMapping("/create-user")
+    public PersonResponseDTO createUserDetails(@RequestBody PersonRequestDTO personRequestDTO) {
+        return voterRegistrationService.createUserDetails(personRequestDTO);
+
     }
 }
